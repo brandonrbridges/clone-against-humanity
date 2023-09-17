@@ -1,5 +1,5 @@
 {
-  "name": "cards-against-humanity",
+  "name": "clone-against-humanity",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,14 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/icons-react": "^2.34.0",
     "@types/node": "20.6.2",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
+    "classnames": "^2.3.2",
     "next": "13.4.19",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.46.1",
+    "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
+    "sass": "^1.67.0",
+    "socket.io-client": "^4.7.2",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2"
   }
