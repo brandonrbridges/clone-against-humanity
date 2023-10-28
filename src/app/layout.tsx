@@ -1,19 +1,19 @@
-// Types
+// Next
 import type { Metadata } from 'next'
 
-// Providers
-import Providers from './providers'
+// Redux
+import ReduxProvider from '@/redux/provider'
 
 // Fonts
 import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 // Styles
-import './main.scss'
+import '@/styles/main.scss'
 
 export const metadata: Metadata = {
-	title: 'Cards Against Humanity',
-	description: 'A fun clone of Cards Against Humanity',
+	title: 'Clone Against Humanity',
+	description: '',
 }
 
 export default function RootLayout({
@@ -22,13 +22,11 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<Providers>
-			<html lang='en'>
-				<body className={inter.className}>
-					{children}
-					<div id='modal-root' />
-				</body>
-			</html>
-		</Providers>
+		<html lang='en'>
+			<body className={inter.className}>
+				<ReduxProvider>{children}</ReduxProvider>
+				<div id='modal-root' />
+			</body>
+		</html>
 	)
 }

@@ -1,117 +1,88 @@
 'use client'
 
-// React
-import { useEffect } from 'react'
+// Fetch
+import { POST, PUT } from '@/lib/fetch'
 
-// Next
-import { useRouter } from 'next/navigation'
-
-// Recoil
-import { useRecoilValue } from 'recoil'
-import { authState } from '@/recoil/authState'
+// Helpers
+import { generateInviteCode } from './CreateGameForm.helpers'
 
 // Packages
 import { useForm } from 'react-hook-form'
+import { useAppSelector } from '@/redux/store'
+import { useRouter } from 'next/navigation'
 
-export default function CreateGameForm() {
-	const auth = useRecoilValue(authState)
+const CreateGameForm = () => {
+	const auth = useAppSelector(({ auth }) => auth)
 
 	const router = useRouter()
 
-	const { register, setValue, handleSubmit } = useForm({
+	const { register, handleSubmit } = useForm({
 		defaultValues: {
-			name: 'test',
-			inviteCode: 'test',
-			rounds: 10,
-			maxPlayers: 8,
+			host: auth.id,
+			name: `${auth.username}'s Game`,
+			invite_code: generateInviteCode(),
+			max_players: 8,
+			max_rounds: 10,
 		},
 	})
 
 	const onSubmit = handleSubmit(async (data) => {
-		console.log(data)
+		const game = await POST('/games', data)
 
-		try {
-			const response = await fetch('http://localhost:3001/games/create', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					user: auth,
-					...data,
-				}),
-			})
+		await PUT(`/games/${game.id}/join`, {
+			player_id: auth.id,
+		})
 
-			const json = await response.json()
-
-			router.push(`/game?id=${json.id}`)
-		} catch (error) {
-			console.log(error)
-		}
+		router.push(`/games/${game.id}`)
 	})
 
-	useEffect(() => {
-		const generate5LetterInviteCode = () => {
-			const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
-			let code = ''
-
-			for (let i = 0; i < 5; i++) {
-				code += alphabet[Math.floor(Math.random() * alphabet.length)]
-			}
-
-			return code
-		}
-
-		setValue('inviteCode', generate5LetterInviteCode())
-	}, [])
-
 	return (
-		<form onSubmit={onSubmit} className='flex flex-col space-y-4'>
+		<form onSubmit={onSubmit} className='space-y-4'>
 			<div>
 				<label htmlFor='name'>Name</label>
 				<input
+					id='name'
 					type='text'
-					placeholder='Name'
-					className='px-2 py-1 rounded'
-					{...register('name')}
+					className='input'
+					{...register('name', {
+						required: true,
+					})}
 				/>
-			</div>
-			<div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-				<div>
-					<label htmlFor='rounds'>Rounds</label>
-					<input
-						id='rounds'
-						type='number'
-						placeholder='Rounds'
-						className=''
-						{...register('rounds')}
-					/>
-				</div>
-				<div>
-					<label htmlFor='maxPlayers'>Max Players</label>
-					<input
-						id='maxPlayers'
-						type='number'
-						placeholder='Max Players'
-						className='w-full px-2 py-1 rounded'
-						{...register('maxPlayers')}
-					/>
-				</div>
 			</div>
 			<div>
-				<label htmlFor='code'>Invite Code</label>
+				<label htmlFor='invite_code'>Invite Code</label>
 				<input
-					id='code'
+					id='invite_code'
 					type='text'
-					placeholder='Invite Code'
-					className='w-full px-2 py-1 rounded'
-					{...register('inviteCode')}
+					className='input'
+					{...register('invite_code')}
 				/>
 			</div>
-			<button type='submit' className='filled'>
+			<div className='grid grid-cols-2 gap-4'>
+				<div>
+					<label htmlFor='max_players'>Max Players</label>
+					<input
+						id='max_players'
+						type='number'
+						className='input'
+						{...register('max_players')}
+					/>
+				</div>
+				<div>
+					<label htmlFor='max_rounds'>Max Rounds</label>
+					<input
+						id='max_rounds'
+						type='number'
+						className='input'
+						{...register('max_rounds')}
+					/>
+				</div>
+			</div>
+			<button type='submit' className='ml-auto button'>
 				Create Game
 			</button>
 		</form>
 	)
 }
+
+export default CreateGameForm

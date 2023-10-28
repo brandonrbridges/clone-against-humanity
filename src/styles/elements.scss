@@ -1,0 +1,47 @@
+button {
+	@apply flex items-center justify-center;
+
+	svg {
+		@apply inline-block ml-2 h-4 w-4;
+	}
+
+	&.button {
+		@apply border px-2 py-1 rounded border-black transition-all;
+
+		&:hover {
+			@apply bg-black text-white;
+		}
+
+		&.button-filled {
+			@apply bg-black text-white;
+
+			&:hover {
+				@apply bg-opacity-75;
+			}
+		}
+
+		&.button-white {
+			@apply bg-white text-black;
+
+			&:hover {
+				@apply bg-opacity-75;
+			}
+		}
+	}
+}
+
+label {
+	@apply block text-sm;
+}
+
+input {
+	@apply w-full;
+
+	&.input {
+		@apply border px-2 py-1 rounded border-black transition-colors;
+
+		&:focus {
+			@apply outline-none;
+		}
+	}
+}

@@ -1,28 +1,30 @@
-import useHydration from '@/hooks/useHydration'
+import { IconCircleX } from '@tabler/icons-react'
 import { createPortal } from 'react-dom'
 
 type ModalProps = {
-	title?: string
+	title: string
 	children: React.ReactNode
 	visible: boolean
 	onClose: () => void
 }
 
-export default function Modal(props: ModalProps) {
-	const hydrated = useHydration()
-
-	if (!props.visible || !hydrated) return null
-
-	const root = document.getElementById('modal-root') as HTMLElement
+const Modal: React.FC<ModalProps> = (props) => {
+	if (!props.visible) return null
 
 	return createPortal(
-		<div className='absolute top-0 left-0 flex items-center justify-center w-full h-screen bg-zinc-950/50'>
-			<div className='w-full max-w-lg p-4 bg-white rounded-md shadow-xl'>
-				{props.title && <p className='mb-4 text-xl font-bold'>{props.title}</p>}
-
-				{props.children}
+		<div className='fixed top-0 left-0 flex items-center justify-center w-full h-screen bg-black/25'>
+			<div className='w-10/12 p-6 bg-white rounded md:w-1/3'>
+				<div className='flex items-center justify-between mb-4'>
+					<p className='font-semibold'>{props.title}</p>
+					<button onClick={props.onClose}>
+						<IconCircleX />
+					</button>
+				</div>
+				<div>{props.children}</div>
 			</div>
 		</div>,
-		root
+		document.getElementById('modal-root') as HTMLElement
 	)
 }
+
+export default Modal
