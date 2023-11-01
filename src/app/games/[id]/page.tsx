@@ -92,7 +92,7 @@ export default function Game({
 	}, [])
 
 	useEffect(() => {
-		const socket = io('http://localhost:4000')
+		const socket = io(process.env.NEXT_PUBLIC_API as string)
 
 		socket.on('game_updated', (data: Game) => {
 			if (data.id === params.id) {
