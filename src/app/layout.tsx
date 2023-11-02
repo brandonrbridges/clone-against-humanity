@@ -13,7 +13,7 @@ import '@/styles/main.scss'
 
 export const metadata: Metadata = {
 	title: 'Clone Against Humanity',
-	description: '',
+	description: 'A clone of Cards Against Humanity',
 }
 
 export default function RootLayout({
