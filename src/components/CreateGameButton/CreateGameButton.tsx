@@ -3,6 +3,9 @@
 // React
 import { useState } from 'react'
 
+// Redux
+import { useAppSelector } from '@/redux/store'
+
 // Hooks
 import useToggle from '@/hooks/useToggle'
 
@@ -14,7 +17,11 @@ import Modal from '../Modal'
 import { IconCirclePlus } from '@tabler/icons-react'
 
 const CreateGameButton = () => {
+	const auth = useAppSelector(({ auth }) => auth)
+
 	const [visible, toggle] = useToggle()
+
+	if (!auth.username) return null
 
 	return (
 		<>
@@ -24,7 +31,7 @@ const CreateGameButton = () => {
 			</button>
 
 			{visible && (
-				<Modal title='Create Game' visible={visible} onClose={toggle}>
+				<Modal title='Create Game' visible={visible} toggle={toggle}>
 					<CreateGameForm />
 				</Modal>
 			)}

@@ -5,7 +5,7 @@ type ModalProps = {
 	title: string
 	children: React.ReactNode
 	visible: boolean
-	onClose: () => void
+	toggle: () => void
 }
 
 const Modal: React.FC<ModalProps> = (props) => {
@@ -16,7 +16,7 @@ const Modal: React.FC<ModalProps> = (props) => {
 			<div className='w-10/12 p-6 bg-white rounded md:w-1/3'>
 				<div className='flex items-center justify-between mb-4'>
 					<p className='font-semibold'>{props.title}</p>
-					<button onClick={props.onClose}>
+					<button onClick={props.toggle}>
 						<IconCircleX />
 					</button>
 				</div>

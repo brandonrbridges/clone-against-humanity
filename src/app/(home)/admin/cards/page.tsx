@@ -42,8 +42,8 @@ export default function CardsPage() {
 			</div>
 			<div className='grid grid-cols-2 gap-4 mb-8 md:grid-cols-6'>
 				{cards
-					.filter((card) => card.type === 'white')
-					.map((card) => (
+					?.filter((card) => card.type === 'white')
+					?.map((card) => (
 						<Card key={card.id} {...card} />
 					))}
 			</div>
@@ -57,8 +57,8 @@ export default function CardsPage() {
 			</div>
 			<div className='grid grid-cols-2 gap-4 mb-8 md:grid-cols-6'>
 				{cards
-					.filter((card) => card.type === 'black')
-					.map((card) => (
+					?.filter((card) => card.type === 'black')
+					?.map((card) => (
 						<Card key={card.id} {...card} />
 					))}
 			</div>

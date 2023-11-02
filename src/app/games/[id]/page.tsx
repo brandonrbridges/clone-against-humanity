@@ -1,8 +1,7 @@
 'use client'
 
 // Types
-import type { Game, GameCard } from '@/types/game.type'
-import type { User } from '@/types/user.type'
+import type { Game, GameCard, SelectedCard } from '@/types/game.type'
 
 // React
 import { useEffect, useState } from 'react'
@@ -67,6 +66,16 @@ export default function Game({
 	}
 
 	const handleSelectWhiteCard = async (card: GameCard) => {
+		if (!round?.black_card) {
+			return
+		}
+
+		if (
+			round?.white_cards?.find((c: SelectedCard) => c.player_id === auth.id)
+		) {
+			return
+		}
+
 		await PUT(`/games/${params.id}/select-white-card`, {
 			player_id: auth.id,
 			card_id: card.id,
@@ -146,7 +155,7 @@ export default function Game({
 
 	return (
 		<>
-			<div className='flex w-full h-screen'>
+			<div className='flex w-full h-screen overflow-hidden'>
 				<div className='flex-col hidden h-full p-4 border-r w-80 md:flex'>
 					<Sidebar game={game} round={round} />
 
@@ -165,7 +174,7 @@ export default function Game({
 					</div>
 				</div>
 
-				<div className='relative flex-1 h-screen p-4'>
+				<div className='relative flex-1 w-full h-screen p-4'>
 					{game?.rounds?.length === 0 && (
 						<div className='flex items-center justify-center w-full h-full'>
 							<p>This game hasn't started yet</p>
@@ -193,7 +202,7 @@ export default function Game({
 											</div>
 
 											<CardContainer>
-												{blackHand.map((card) => (
+												{blackHand?.filter(Boolean)?.map((card) => (
 													<Card
 														key={card.id}
 														{...card}
@@ -217,13 +226,15 @@ export default function Game({
 														Please select a winner
 													</p>
 													<CardContainer className='mt-auto'>
-														{round?.white_cards?.map((card) => (
-															<Card
-																key={card.id}
-																{...card}
-																onClick={() => handleSelectWinningCard(card)}
-															/>
-														))}
+														{round?.white_cards
+															?.filter(Boolean)
+															?.map((card) => (
+																<Card
+																	key={card.id}
+																	{...card}
+																	onClick={() => handleSelectWinningCard(card)}
+																/>
+															))}
 													</CardContainer>
 												</div>
 											)}
@@ -245,8 +256,8 @@ export default function Game({
 										<p>Waiting for the Card Czar to pick a card</p>
 									)}
 
-									<CardContainer className='mt-auto'>
-										{hand.map((card) => (
+									<CardContainer className='w-full py-2 mt-auto'>
+										{hand?.filter(Boolean)?.map((card) => (
 											<Card
 												key={card.id}
 												{...card}
@@ -299,7 +310,6 @@ export default function Game({
 					)}
 				</div>
 			</div>
-			<pre>{JSON.stringify(game, null, 2)}</pre>
 		</>
 	)
 }

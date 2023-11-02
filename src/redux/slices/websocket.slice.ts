@@ -13,7 +13,7 @@ export const initialiseWebsocket = createAsyncThunk(
 			return state.websocket.websocket
 		}
 
-		const socket = io(process.env.NEXT_PUBLIC_API_WS as string)
+		const socket = io(process.env.NEXT_PUBLIC_API as string)
 
 		dispatch(setWebsocket(socket))
 

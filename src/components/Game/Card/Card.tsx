@@ -14,7 +14,7 @@ const Card: React.FC<CardProps> = (props) => {
 		<button
 			onClick={props.onClick}
 			className={classNames(
-				'h-56 md:h-64 w-44 md:w-52 flex flex-col items-start rounded-lg border p-4 hover:-translate-y-2 hover:shadow-2xl transition-all hover:cursor-pointer',
+				'h-56 md:h-64 w-44 md:w-52 flex flex-col flex-shrink-0 items-start rounded-lg border p-4 hover:-translate-y-2 hover:shadow-2xl transition-all hover:cursor-pointer',
 				{
 					'bg-black text-white': props.type === 'black',
 				}
@@ -41,7 +41,7 @@ const CardContainer: React.FC<ContainerProps> = (props) => {
 	return (
 		<div
 			className={classNames(
-				'flex items-center justify-center gap-4 mx-auto',
+				'flex gap-4 mx-auto overflow-x-auto',
 				props.className
 			)}
 		>

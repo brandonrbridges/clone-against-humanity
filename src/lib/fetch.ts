@@ -1,3 +1,5 @@
+import { store } from '@/redux/store'
+
 type FetchOptions = {
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE'
 	headers?: Record<string, string>
@@ -12,11 +14,16 @@ const wrapper = async (
 		'Content-Type': 'application/json',
 	}
 
+	const token = store.getState().auth.access_token
+
+	const authHeader = token ? { Authorization: `Bearer ${token}` } : null
+
 	try {
 		const response = await fetch(process.env.NEXT_PUBLIC_API + url, {
 			method,
 			headers: {
 				...defaultHeaders,
+				...authHeader,
 				...headers,
 			},
 			body: JSON.stringify(body),

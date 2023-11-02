@@ -22,6 +22,8 @@ import Chip from '../Chip'
 import io from 'socket.io-client'
 
 const GameList = () => {
+	const auth = useAppSelector(({ auth }) => auth)
+
 	const [games, setGames] = useState<Array<any>>([])
 
 	useEffect(() => {
@@ -48,7 +50,7 @@ const GameList = () => {
 
 			updated[index] = game
 
-			setGames(updated)
+			setGames((state) => [...state, ...updated])
 		})
 
 		return () => {
@@ -86,9 +88,11 @@ const Item = ({ game }: { game: any }) => {
 					{game?.players?.length || 0}/{game.max_players} players
 				</Chip>
 			</div>
-			<button onClick={handleJoinGame} className='ml-auto button'>
-				Join Game
-			</button>
+			{auth.username && (
+				<button onClick={handleJoinGame} className='ml-auto button'>
+					Join Game
+				</button>
+			)}
 		</div>
 	)
 }

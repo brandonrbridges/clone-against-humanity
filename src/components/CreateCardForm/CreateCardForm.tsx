@@ -1,3 +1,6 @@
+// React
+import { useEffect, useRef } from 'react'
+
 // Fetch
 import { POST } from '@/lib/fetch'
 
@@ -9,7 +12,7 @@ import { useForm } from 'react-hook-form'
 
 type CreateCardFormProps = {
 	type?: 'white' | 'black'
-	onClose: () => void
+	toggle: () => void
 	updateState: (card: any) => void
 }
 
@@ -23,6 +26,10 @@ const CreateCardForm: React.FC<CreateCardFormProps> = (props) => {
 		}
 	)
 
+	const inputRef = useRef<HTMLInputElement | null>(null)
+
+	const { ref, ...rest } = register('text')
+
 	const onSubmit = handleSubmit(async (data) => {
 		const card = await POST('/cards', {
 			...data,
@@ -32,7 +39,7 @@ const CreateCardForm: React.FC<CreateCardFormProps> = (props) => {
 		reset()
 
 		props.updateState(card)
-		props.onClose()
+		props.toggle()
 	})
 
 	const insertGap = () => {
@@ -42,6 +49,8 @@ const CreateCardForm: React.FC<CreateCardFormProps> = (props) => {
 		const updatedText = text + gap
 
 		setValue('text', updatedText)
+
+		inputRef.current?.focus()
 	}
 
 	const watchedType = watch('type')
@@ -87,7 +96,11 @@ const CreateCardForm: React.FC<CreateCardFormProps> = (props) => {
 					type='text'
 					className='input'
 					autoFocus
-					{...register('text')}
+					{...rest}
+					ref={(e) => {
+						ref(e)
+						inputRef.current = e
+					}}
 				/>
 			</div>
 			<div className='flex items-center'>

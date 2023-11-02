@@ -2,6 +2,7 @@ import useToggle from '@/hooks/useToggle'
 import { IconCirclePlus } from '@tabler/icons-react'
 import Modal from '../Modal'
 import CreateCardForm from '../CreateCardForm'
+import { useEffect } from 'react'
 
 type CreateCardButtonProps = {
 	text?: string
@@ -20,10 +21,10 @@ const CreateCardButton: React.FC<CreateCardButtonProps> = (props) => {
 			</button>
 
 			{visible && (
-				<Modal title='Create Card' visible={visible} onClose={toggle}>
+				<Modal title='Create Card' visible={visible} toggle={toggle}>
 					<CreateCardForm
 						type={props.type}
-						onClose={toggle}
+						toggle={toggle}
 						updateState={props.updateState}
 					/>
 				</Modal>
