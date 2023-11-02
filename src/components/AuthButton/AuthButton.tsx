@@ -8,6 +8,7 @@ import useToggle from '@/hooks/useToggle'
 
 // Components
 import AuthModal from '@/components/AuthModal'
+import { useEffect } from 'react'
 
 const AuthButton: React.FC = () => {
 	const auth = useAppSelector(({ auth }) => auth)

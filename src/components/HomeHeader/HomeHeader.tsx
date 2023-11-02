@@ -1,4 +1,5 @@
 // Components
+import AdminButton from '../AdminButton'
 import AuthButton from '../AuthButton'
 import CreateGameButton from '../CreateGameButton'
 import UsernameButton from '../UsernameButton'
@@ -21,8 +22,10 @@ const HomeHeader: React.FC = () => {
 				</p>
 			</div>
 			<div className='flex items-center justify-center space-x-4'>
-				<CreateGameButton />
 				<AuthButton />
+
+				<CreateGameButton />
+				<AdminButton />
 				<UsernameButton />
 			</div>
 		</div>

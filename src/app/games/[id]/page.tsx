@@ -153,6 +153,14 @@ export default function Game({
 		)
 	}
 
+	if (!auth.access_token) {
+		return (
+			<div>
+				<p>Not logged in</p>
+			</div>
+		)
+	}
+
 	return (
 		<>
 			<div className='flex w-full h-screen overflow-hidden'>

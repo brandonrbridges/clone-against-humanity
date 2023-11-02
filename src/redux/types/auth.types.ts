@@ -1,0 +1,5 @@
+export enum AuthRolesEnum {
+	USER = 'USER',
+	MODERATOR = 'MODERATOR',
+	ADMINISTRATOR = 'ADMINISTRATOR',
+}

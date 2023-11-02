@@ -40,7 +40,7 @@ export default function CardsPage() {
 					type='white'
 				/>
 			</div>
-			<div className='grid grid-cols-2 gap-4 mb-8 md:grid-cols-6'>
+			<div className='grid grid-cols-2 gap-4 mb-8 md:grid-cols-5'>
 				{cards
 					?.filter((card) => card.type === 'white')
 					?.map((card) => (
@@ -55,7 +55,7 @@ export default function CardsPage() {
 					type='black'
 				/>
 			</div>
-			<div className='grid grid-cols-2 gap-4 mb-8 md:grid-cols-6'>
+			<div className='grid grid-cols-2 gap-4 mb-8 md:grid-cols-5'>
 				{cards
 					?.filter((card) => card.type === 'black')
 					?.map((card) => (

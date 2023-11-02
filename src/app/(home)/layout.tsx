@@ -18,20 +18,6 @@ export default function HomeLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const auth = useAppSelector(({ auth }) => auth)
-	const websocket = useAppSelector(({ websocket }) => websocket)
-	const dispatch = useAppDispatch()
-
-	// useEffect(() => {
-	// 	if (!websocket.websocket) {
-	// 		dispatch(initialiseWebsocket())
-	// 	}
-
-	// 	return () => {
-	// 		dispatch(closeWebsocket())
-	// 	}
-	// }, [])
-
 	return (
 		<main className='p-4'>
 			<HomeHeader />

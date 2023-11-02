@@ -24,8 +24,10 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
-				<ReduxProvider>{children}</ReduxProvider>
-				<div id='modal-root' />
+				<ReduxProvider>
+					{children}
+					<div id='modal-root' />
+				</ReduxProvider>
 			</body>
 		</html>
 	)
