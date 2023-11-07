@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // Redux
 import { useAppDispatch } from '@/redux/store'
-import { login } from '@/redux/slices/auth.slice'
+import { login, setAccessToken } from '@/redux/slices/auth.slice'
 
 // Fetch
 import { GET, POST } from '@/lib/fetch'
@@ -28,7 +28,7 @@ const RegisterForm: React.FC = () => {
 		if (response) {
 			const { access_token } = response
 
-			dispatch(login(access_token))
+			dispatch(setAccessToken(access_token))
 
 			const me = await GET('/auth/me', {
 				Authorization: 'Bearer ' + access_token,

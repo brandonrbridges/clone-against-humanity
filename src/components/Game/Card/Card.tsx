@@ -41,7 +41,7 @@ const CardContainer: React.FC<ContainerProps> = (props) => {
 	return (
 		<div
 			className={classNames(
-				'flex gap-4 mx-auto overflow-x-auto',
+				'flex gap-4 mx-auto overflow-x-auto w-full',
 				props.className
 			)}
 		>

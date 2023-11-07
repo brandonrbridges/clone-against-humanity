@@ -20,11 +20,13 @@ import Card, { CardContainer } from '@/components/Game/Card/Card'
 import Sidebar from '@/components/Game/Sidebar'
 
 // Icons
-import { IconCards, IconCrown } from '@tabler/icons-react'
+import { IconCards, IconCrown, IconMenu } from '@tabler/icons-react'
 
 // Packages
 import ConfettiExplosion from 'react-confetti-explosion'
 import { io } from 'socket.io-client'
+import useToggle from '@/hooks/useToggle'
+import classNames from 'classnames'
 
 export default function Game({
 	params,
@@ -43,6 +45,8 @@ export default function Game({
 	const [blackHand, setBlackHand] = useState<Array<GameCard>>([])
 
 	const [round, setRound] = useState<Game['rounds'][0]>()
+
+	const [menuVisible, toggleMenu] = useToggle(false)
 
 	const leaveGame = async () => {
 		await PUT(`/games/${params.id}/leave`, {
@@ -111,7 +115,7 @@ export default function Game({
 		})
 
 		return () => {
-			socket.disconnect()
+			leaveGame().then(() => socket.disconnect())
 		}
 	}, [])
 
@@ -163,8 +167,25 @@ export default function Game({
 
 	return (
 		<>
-			<div className='flex w-full h-screen overflow-hidden'>
-				<div className='flex-col hidden h-full p-4 border-r w-80 md:flex'>
+			<div className='relative flex w-full h-screen overflow-hidden'>
+				<button
+					className='absolute top-0 z-50 flex items-center justify-center w-8 h-8 md:hidden left-2'
+					onClick={toggleMenu}
+				>
+					<IconMenu size={42} />
+				</button>
+
+				{menuVisible && <p>menu is visible</p>}
+
+				<div
+					className={classNames(
+						'flex-col h-full p-4 border-r w-80 md:flex absolute md:relative left-0 top-0 z-40 bg-white pt-8 md:pt-0',
+						{
+							flex: menuVisible,
+							hidden: !menuVisible,
+						}
+					)}
+				>
 					<Sidebar game={game} round={round} />
 
 					<div className='mt-auto space-y-4'>
@@ -186,12 +207,15 @@ export default function Game({
 					{game?.rounds?.length === 0 && (
 						<div className='flex items-center justify-center w-full h-full'>
 							<p>This game hasn't started yet</p>
+							{menuVisible && <p>menu is visible</p>}
 						</div>
 					)}
 
 					{game?.rounds.length > 0 && (
 						<div className='flex flex-col h-full'>
-							<p>Round {game?.rounds[game.rounds.length - 1].number}</p>
+							<p className='text-center md:text-left'>
+								Round {game?.rounds[game.rounds.length - 1].number}
+							</p>
 
 							{/**
 							 * CZAR VIEW
@@ -204,7 +228,7 @@ export default function Game({
 									</div>
 
 									{!round.black_card && (
-										<div className='flex flex-col items-center space-x-2'>
+										<div className='flex flex-col items-center'>
 											<div className='mb-4'>
 												<p className='text-center'>Please select a card</p>
 											</div>
@@ -264,7 +288,7 @@ export default function Game({
 										<p>Waiting for the Card Czar to pick a card</p>
 									)}
 
-									<CardContainer className='w-full py-2 mt-auto'>
+									<CardContainer className='py-2 mt-auto'>
 										{hand?.filter(Boolean)?.map((card) => (
 											<Card
 												key={card.id}
@@ -292,7 +316,7 @@ export default function Game({
 											duration={5000}
 											particleCount={500}
 											width={1600}
-											className='mx-auto'
+											className='mx-auto z-[100]'
 										/>
 									</div>
 								</div>
@@ -310,7 +334,7 @@ export default function Game({
 										duration={15000}
 										particleCount={1000}
 										width={1600}
-										className='mx-auto'
+										className='mx-auto z-[100]'
 									/>
 								</div>
 							</div>
